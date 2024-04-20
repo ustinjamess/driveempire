@@ -17,13 +17,6 @@ example:AddToggle("Auto Farm[Velocity]", function(state)
             local pre = getfenv().location
             local timer = 0
 
-            local args = {
-                [1] = "Highway",
-                [2] = "NoOne"
-            }
-            
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RaceStartTimeTrial"):FireServer(unpack(args))
-
             while _G.testers do
                 task.wait()
                 
@@ -51,6 +44,15 @@ example:AddToggle("Auto Farm[Velocity]", function(state)
         
         while _G.testers do
             task.wait()
+
+            local args = {
+                [1] = "Highway",
+                [2] = "NoOne"
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RaceStartTimeTrial"):FireServer(unpack(args))
+
+            task.wait(10)
             getfenv().reset = false
             local chr = game.Players.LocalPlayer.Character
             local car = chr.Humanoid.SeatPart.Parent
