@@ -16,7 +16,7 @@ example:AddToggle("Auto Farm[Velocity]", function(state)
         spawn(function()
             local pre = getfenv().location
             local timer = 0
-            
+
             local args = {
                 [1] = "Highway",
                 [2] = "NoOne"
@@ -24,9 +24,6 @@ example:AddToggle("Auto Farm[Velocity]", function(state)
             
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RaceStartTimeTrial"):FireServer(unpack(args))
 
-            -- Wait for 10 seconds before starting
-            task.wait(10)
-            
             while _G.testers do
                 task.wait()
                 
