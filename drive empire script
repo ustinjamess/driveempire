@@ -3,6 +3,12 @@ local example = library:CreateWindow({
     text = "Driving Empire"
 })
 
+example:AddBox("Vehicle Velocity Speed", function(object, focus)
+    if focus then
+        getfenv().speed = tonumber(object.Text)
+    end
+end)
+
 example:AddToggle("Auto Farm[Velocity]", function(state)
     _G.testers = state
     
@@ -10,6 +16,16 @@ example:AddToggle("Auto Farm[Velocity]", function(state)
         spawn(function()
             local pre = getfenv().location
             local timer = 0
+            
+            local args = {
+                [1] = "Highway",
+                [2] = "NoOne"
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RaceStartTimeTrial"):FireServer(unpack(args))
+
+            -- Wait for 10 seconds before starting
+            task.wait(10)
             
             while _G.testers do
                 task.wait()
@@ -43,7 +59,7 @@ example:AddToggle("Auto Farm[Velocity]", function(state)
             local car = chr.Humanoid.SeatPart.Parent
             car.PrimaryPart = car.Weight
             
-             local locations = {
+            local locations = {
                 Vector3.new(-9, 67, 254),
                 Vector3.new(565, 68, 12),
                 Vector3.new(2464, 68, -905),
