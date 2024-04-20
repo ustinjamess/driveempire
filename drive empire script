@@ -1,0 +1,113 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Marco8642/science/main/ui%20libs2", true))()
+local example = library:CreateWindow({
+    text = "Driving Empire"
+})
+
+example:AddToggle("Auto Farm[Velocity]", function(state)
+    _G.testers = state
+    
+    if _G.testers then
+        spawn(function()
+            local pre = getfenv().location
+            local timer = 0
+            
+            while _G.testers do
+                task.wait()
+                
+                if getfenv().location == pre and timer <= 10 then
+                    timer = timer + 1
+                    print(timer)
+                    wait(1)
+                elseif getfenv().location ~= pre then
+                    pre = getfenv().location
+                    warn("vehicle is not stuck vehicle reset timer reset")
+                    timer = 0
+                    wait(1)
+                elseif timer >= 10 then
+                    warn("vehicle reset")
+                    getfenv().reset = true
+                    local chr = game.Players.LocalPlayer.Character
+                    local car = chr.Humanoid.SeatPart.Parent
+                    car.PrimaryPart.Velocity = Vector3.new(0, 0, 0)
+                    car:PivotTo(CFrame.new(getfenv().location))
+                    timer = 0
+                    wait(1)
+                end
+            end
+        end)
+        
+        while _G.testers do
+            task.wait()
+            getfenv().reset = false
+            local chr = game.Players.LocalPlayer.Character
+            local car = chr.Humanoid.SeatPart.Parent
+            car.PrimaryPart = car.Weight
+            
+             local locations = {
+                Vector3.new(-9, 67, 254),
+                Vector3.new(565, 68, 12),
+                Vector3.new(2464, 68, -905),
+                Vector3.new(3340, 68, -1277),
+                Vector3.new(4982, 68, -1991),
+                Vector3.new(6046, 68, -2709),
+                Vector3.new(7230, 68, -3623),
+                Vector3.new(8086, 68, -4548),
+                Vector3.new(9676, 94, -6830)
+            }
+            
+            for _, location in ipairs(locations) do
+                repeat
+                    task.wait()
+                    local mathlock = getfenv().speed or 500
+                    car.PrimaryPart.Velocity = Vector3.new(car.PrimaryPart.Velocity.X, -10, car.PrimaryPart.Velocity.Z)
+                    car.PrimaryPart.Velocity = car.PrimaryPart.CFrame.LookVector * mathlock
+                    car.PrimaryPart.Velocity = Vector3.new(car.PrimaryPart.Velocity.X, -10, car.PrimaryPart.Velocity.Z)
+                    car:PivotTo(CFrame.new(car.PrimaryPart.Position, location))
+                    car.PrimaryPart.Velocity = Vector3.new(car.PrimaryPart.Velocity.X, -10, car.PrimaryPart.Velocity.Z)
+                until game.Players.LocalPlayer:DistanceFromCharacter(location) < 50 or _G.testers == false or getfenv().reset == true
+            end
+        end
+    end
+end)
+
+example:AddToggle("Auto Farm[Normal]", function(state)
+    _G.testers2 = state
+    
+    if _G.testers2 then
+        while _G.testers2 do
+            task.wait()
+            
+            local args = {
+                [1] = "Highway",
+                [2] = "NoOne"
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RaceStartTimeTrial"):FireServer(unpack(args))
+            
+            local chr = game.Players.LocalPlayer.Character
+            local car = chr.Humanoid.SeatPart.Parent
+            car.PrimaryPart = car.Weight
+            car:PivotTo(CFrame.new(Vector3.new(-9, 67, 254)))
+            
+            local locations = {
+                Vector3.new(-9, 67, 254),
+                Vector3.new(565, 68, 12),
+                Vector3.new(2464, 68, -905),
+                Vector3.new(3340, 68, -1277),
+                Vector3.new(4982, 68, -1991),
+                Vector3.new(6046, 68, -2709),
+                Vector3.new(7230, 68, -3623),
+                Vector3.new(8086, 68, -4548),
+                Vector3.new(9676, 94, -6830)
+            }
+            
+            for _, location in ipairs(locations) do
+                repeat
+                    task.wait()
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "W", false, game)
+                    car:PivotTo(CFrame.new(car.PrimaryPart.Position, location))
+                until game.Players.LocalPlayer:DistanceFromCharacter(location) < 50
+            end
+        end
+    end
+end)
